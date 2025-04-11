@@ -21,6 +21,7 @@ def ready(time = 5):
          if right_button.is_pressed or left_button.is_pressed:
             sleep(0.5)
      print("Time is up!")
+     return False
     
 
 def main_play():
@@ -42,7 +43,8 @@ def main_play():
         right_button.when_pressed = pressed()
         left_button.when_pressed = pressed()
         if right_button.is_pressed or left_button.is_pressed:
-            sleep(0.5)
+            print(f'Button pressed! Break time: {time.time() - start_time:.2f} seconds')
+            break
 
 def reset(timeout=10):
     print("Press the reset button to play again.")
@@ -66,14 +68,16 @@ def reset(timeout=10):
 
 
 def play():
-    
-    while True:
-        if ready() == True:
+
+    if ready():
+        while True:
+        
             print("Both players are ready!")
             main_play()
 
-        if reset():
-            break
+            if reset():
+                break
+    print("Game over!")
 
 if __name__ == "__main__":
     led = LED(4)

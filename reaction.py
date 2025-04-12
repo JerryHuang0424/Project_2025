@@ -12,11 +12,10 @@ def ready(time = 5):
      while time.time() - start_time < time:
          if right_button.is_pressed:
              player1_ready = True
-             print("Player 1 is ready!")
          if left_button.is_pressed:
              player2_ready = True
-             print("Player 2 is ready!")
          if player1_ready and player2_ready:
+             print('All players ready')
              return True
          if right_button.is_pressed or left_button.is_pressed:
             sleep(0.5)
@@ -27,11 +26,14 @@ def ready(time = 5):
 def main_play():
 
     def pressed(button):
+        start_time = time.time()
         if button.pin.number == 14:
             print(left_name + ' won the game')
         else:
             print(right_name + ' won the game')
-
+        
+        print(f'The reaction time is {time.time() - start_time}')
+        
     left_name = input('Enter the name of the left player: ')
     right_name = input('Enter the name of the right player: ')
 
@@ -41,9 +43,8 @@ def main_play():
     start_time = time.time()
     while time.time() - start_time < 3:
         right_button.when_pressed = pressed()
-        left_button.when_pressed = pressed()
+        # left_button.when_pressed = pressed()
         if right_button.is_pressed or left_button.is_pressed:
-            print(f'Button pressed! Break time: {time.time() - start_time:.2f} seconds')
             break
 
 def reset(timeout=10):
@@ -60,8 +61,8 @@ def reset(timeout=10):
             print("Player 2 has reset the game!")
         if player1_reset and player2_reset:
             return True
-        if right_button.is_pressed or left_button.is_pressed:
-            sleep(0.5)
+        if right_button.is_pressed and left_button.is_pressed:
+            print('Player reset the game')
     print("Reset timed out!")
     return False
 
